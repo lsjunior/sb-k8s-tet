@@ -1,0 +1,116 @@
+debug: false
+
+logging:
+  level:
+    root: warn
+    '[com.github.lsjunior.sbk8stest]': info
+    '[org.hibernate]': error
+    '[org.springframework]': warn
+    '[org.springframework.security]': warn
+    '[org.springframework.web]': warn
+    
+management:
+  endpoints:
+    web:
+      exposure:
+       include: health,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+      
+server:
+  forward-headers-strategy: framework
+  port: 8080
+  shutdown: graceful
+  servlet:
+    application-display-name: sb-k8s-test
+    context-path: /api
+    register-default-servlet: true
+    
+spring:
+  application:
+    name: sb-k8s-test
+  cache:
+    cache-names:
+      - person
+    type: redis
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
+    web:
+      pageable:
+        default-page-size: 100
+        max-page-size: 10000
+        page-parameter: p
+        size-parameter: s
+      sort:
+        sort-parameter: o
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    password: root
+    url: jdbc:mariadb://localhost:13306/sb_k8s_test?useUnicode=true&characterEncoding=utf8mb4
+    username: root
+    hikari:
+      auto-commit: false
+      connection-init-sql: SELECT 1
+      connection-test-query: SELECT 1
+      connection-timeout: 15000
+      idle-timeout: 15000
+      max-lifetime: 60000
+      maximum-pool-size: 8
+      minimum-idle: 2
+      validation-timeout: 15000
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  jackson:
+    date-format: dd/MM/yyyy
+    default-property-inclusion: non-null
+  jmx:
+    default-domain: sb-k8s-test
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+    properties:
+      '[hibernate.dialect]': org.hibernate.dialect.MariaDB10Dialect
+      '[hibernate.format_sql]': true
+      '[hibernate.generate_statistics]': false
+      '[hibernate.use_sql_comments]': false
+      '[javax.persistence.lock.timeout]': 15
+    show-sql: false
+  rabbitmq:
+    host: localhost
+    port: 15672
+    username: guest
+    password: guest
+  redis:
+    database: 7
+    host: localhost
+    ssl: false
+    port: 16379
+    timeout: 60000
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 2
+        max-wait: 15000
+        min-idle: 1
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 32MB
+      max-request-size: 64MB 
+  session:
+    redis:
+      flush-mode: on-save
+    store-type: redis
+    timeout: 30M    
+  transaction:
+    default-timeout: 300
+
